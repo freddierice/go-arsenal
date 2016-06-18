@@ -15,3 +15,11 @@ func TestWeaponizeScript(t *testing.T) {
 		t.Errorf("expected %s, got %s", alertWeaponizedExpected, alertWeaponized)
 	}
 }
+
+func TestImagizeScript(t *testing.T) {
+	alert := `alert('xss');`
+	img, err := ImagizeScript(alert)
+	if err != nil {
+		t.Errorf("could not imageize script: %v", err)
+	}
+}

