@@ -26,6 +26,7 @@ func WeaponizeScript(js string) (string, error) {
 	if err := m.Minify("text/javascript", w, r); err != nil {
 		return "", err
 	}
+	w.Close()
 
 	return "eval(atob('" + buf.String() + "'))", nil
 }
